@@ -43,6 +43,7 @@ const handleSubmit = async(e) => {
   email,
   password
   });
+  console.log(response);
   if(response.data.status){
   toast.success('Logged In Successfully');
   }
@@ -53,7 +54,7 @@ const handleSubmit = async(e) => {
 }
 }
 catch(error){
-  
+  console.log(error);
   const error_msg=error.response.data.message;
   toast.error(error_msg);
 }finally{

@@ -25,22 +25,30 @@ function Stories_Dashboard() {
 
   const getUser = async () => {
     try {
-      const response = await axios.get(`${url}/user/getUser`, { withCredentials: true });
+      const token=cookie.get("user_token");
+      const response = await axios.get(`${url}/user/getUser`, {
+        headers: {
+          Authorization: `Bearer ${token}`,  // Add token to Authorization header
+        },
+        withCredentials: true,
+      });
       const userData = response.data;
-      console.log(userData);
       if (userData.status) {
         setUser(userData.user);
-        console.log(user);
         dispatch(addUser(userData.user));
       } else {
         toast.error(userData.data.message);
-        cookie.remove('user_token');
+        cookie.remove('user_token', { path: '/' });
         navigate("/user/login");
       }
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch user data');
+      cookie.remove('user_token', { path: '/' });
+      navigate("/user/login");
     }
   };
+  
 
   useEffect(() => {
     document.title = `User Dashboard`;
