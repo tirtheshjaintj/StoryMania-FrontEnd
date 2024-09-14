@@ -3,6 +3,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
 import { FaHistory } from "react-icons/fa";
+const url = import.meta.env.VITE_BACKEND_URL;
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ const Chatbot = () => {
       localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
 
       try {
-        const response = await axios.post('http://localhost:3000/groqBot', { prompt: input });
+        const response = await axios.post(`${url}/groqBot`, { prompt: input });
         const botMessage = { sender: 'AI', text: response.data };
         const updatedMessagesWithBot = [...updatedMessages, botMessage];
         setMessages(updatedMessagesWithBot);
