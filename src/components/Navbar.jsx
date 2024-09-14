@@ -16,7 +16,7 @@ export default function Nav({user}) {
   return (
     <Navbar fluid rounded className="z-10 pl-5 pr-5">
       <Link to="/" className="flex items-center">
-        <img src="http://localhost:5173/storymania.jpg" className="mr-3 h-12 sm:h-12" alt="StoryMania" />
+        <img src="storymania.jpg" className="mr-3 h-12 sm:h-12" alt="StoryMania" />
         <span className="self-center whitespace-nowrap text-xl font-semibold">StoryMania</span>
       </Link>
 
