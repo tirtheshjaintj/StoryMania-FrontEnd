@@ -30,7 +30,7 @@ function App() {
   }
 
   useEffect(()=>{
-    document.title="Story Mania";
+    document.title="TJ Story Mania By Tirthesh Jain";
     getUser();
   },[]);
 
