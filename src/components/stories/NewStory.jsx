@@ -4,6 +4,7 @@ import TagsInput from 'react-tagsinput';
 import toast from 'react-hot-toast';
 import { useDropzone } from 'react-dropzone';
 import { Editor } from '@tinymce/tinymce-react';
+import Cookie from "universal-cookie";
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
@@ -16,7 +17,7 @@ const NewStory = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [genres, setGenres] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const cookie=new Cookie();
   useEffect(() => {
     document.title = 'Story Mania | Create New Story';
 
@@ -82,7 +83,7 @@ const NewStory = () => {
     imageFiles.forEach(image => formData.append('images', image));
   
     try {
-      const token = new Cookie().get('user_token'); // Get token from cookies
+      const token = cookie.get('user_token'); // Get token from cookies
       await axios.post(`${url}/story/create`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
