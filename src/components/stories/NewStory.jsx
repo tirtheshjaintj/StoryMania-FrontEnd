@@ -88,7 +88,7 @@ const NewStory = () => {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}` // Add token to Authorization header
         },
-        withCredentials: true
+       
       });
       toast.success('Story created successfully');
       // Reset the form
