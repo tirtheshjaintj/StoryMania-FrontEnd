@@ -14,20 +14,29 @@ function App() {
   const cookie = new Cookie();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const getUser=async ()=>{
-    try {
-      const response=await axios.get(`${url}/user/getUser`,{withCredentials:true});
-      const userData=response.data;
-      if(userData.status){
-          dispatch(addUser(userData.user));
-      }else{
-        toast.error(userData.message);
-        cookie.remove('user_token');
-      }
-    } catch (error) {
-      console.log(error);
+
+const getUser = async () => {
+  try {
+    const token = cookie.get('user_token'); // Get token from cookies
+    const response = await axios.get(`${url}/user/getUser`, {
+      headers: {
+        Authorization: `Bearer ${token}`,  // Add token to Authorization header
+      },
+      withCredentials: true,
+    });
+    
+    const userData = response.data;
+    if (userData.status) {
+      dispatch(addUser(userData.user));
+    } else {
+      toast.error(userData.message);
+      cookie.remove('user_token');
     }
+  } catch (error) {
+    console.log(error);
   }
+};
+
 
   useEffect(()=>{
     console.log(url);

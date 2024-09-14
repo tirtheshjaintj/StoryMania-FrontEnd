@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { FaSearch, FaUserPlus } from 'react-icons/fa';
+import Cookie from "universal-cookie";
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
@@ -14,11 +15,17 @@ const AuthorModal = ({ showModal, onClose, storyId }) => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [existingAuthors, setExistingAuthors] = useState([]);
+  const cookie = new Cookie();
 
   useEffect(() => {
     const fetchStory = async () => {
       try {
-        const response = await axios.get(`${url}/story/${storyId}`);
+        const token = new Cookie().get('user_token'); // Get token from cookies
+        const response = await axios.get(`${url}/story/${storyId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,  // Add token to Authorization header
+          },
+        });
         setExistingAuthors(response.data.authors);
       } catch (error) {
         console.error("Error fetching story:", error);
@@ -27,6 +34,7 @@ const AuthorModal = ({ showModal, onClose, storyId }) => {
     };
     fetchStory();
   }, [storyId]);
+  
 
   useEffect(() => {
     if (searchTerm) {
@@ -47,7 +55,15 @@ const AuthorModal = ({ showModal, onClose, storyId }) => {
   }, [searchTerm, existingAuthors]);
 
   const handleAddAuthor = (authorId) => {
-    axios.patch(`${url}/story/stories/${storyId}/add-author`, { authorId }, { withCredentials: true })
+    const token = cookie.get('user_token'); // Get token from cookies
+    axios.patch(`${url}/story/stories/${storyId}/add-author`, 
+      { authorId }, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,  // Add token to Authorization header
+        },
+        withCredentials: true,
+      })
       .then(response => {
         toast.success('Author added successfully!');
         setExistingAuthors(prev => [...prev, authorId]);
@@ -59,6 +75,7 @@ const AuthorModal = ({ showModal, onClose, storyId }) => {
         toast.error('Failed to add author.');
       });
   };
+  
 
   return (
     <Modal

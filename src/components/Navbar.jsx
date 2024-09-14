@@ -7,11 +7,12 @@ export default function Nav({user}) {
   const navigate=useNavigate(); 
   const cookie = new Cookie();
   const dispatch = useDispatch();
-  const logOut=()=>{
-    cookie.remove('user_token');
+  const logOut = () => {
+    cookie.remove('user_token', { path: '/' }); // Ensure the path is set correctly
     navigate("/user/login");
     dispatch(addUser(null));
   }
+  
   
   return (
     <Navbar fluid rounded className="z-10 pl-5 pr-5">

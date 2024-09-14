@@ -5,6 +5,8 @@ import 'react-tagsinput/react-tagsinput.css';
 import toast from 'react-hot-toast';
 import { FaEdit } from 'react-icons/fa';
 import { Editor } from '@tinymce/tinymce-react';
+import Cookie from "universal-cookie";
+
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
@@ -17,6 +19,7 @@ function UpdateStory({ storyData,setSelectedStory}) {
   const [media, setMedia] = useState([]); // Holds media URLs
   const [imagePreview, setImagePreview] = useState(''); // New image preview
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const cookie = new Cookie();
 
   useEffect(() => {
     document.title = `Update Story`;
@@ -48,15 +51,15 @@ function UpdateStory({ storyData,setSelectedStory}) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     setIsSubmitting(true);
-
+  
     if (!title || !plot || !tags.length || !genre) {
       toast.error('All fields are required');
       setIsSubmitting(false);
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('title', title);
     formData.append('plot', plot);
@@ -65,16 +68,17 @@ function UpdateStory({ storyData,setSelectedStory}) {
     if (image) {
       formData.append('image', image); // Append new image if it exists
     }
-
+  
     try {
-      const response=await axios.put(`${url}/story/update/${storyData?._id}`, formData, {
+      const token = cookie.get('user_token'); // Get token from cookies
+      const response = await axios.put(`${url}/story/update/${storyData?._id}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}` // Add token to Authorization header
         },
         withCredentials: true
       });
-
-      
+  
       toast.success('Story updated successfully');
       setSelectedStory(null);
       // Reset the form
@@ -92,6 +96,7 @@ function UpdateStory({ storyData,setSelectedStory}) {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div className="w-full p-4 min-h-screen">

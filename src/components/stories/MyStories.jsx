@@ -4,6 +4,7 @@ import axios from 'axios';
 import { FaSortAmountDown, FaSortAmountUp, FaCalendarAlt, FaCalendarDay } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import UpdateStory from './UpdateStory';
+import Cookie from "universal-cookie";
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
@@ -12,36 +13,49 @@ function MyStories({ selectedStory, setSelectedStory }) {
   const [filteredStories, setFilteredStories] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('dateAsc');
-// Function to remove HTML tags and special entities like &nbsp;
+  const cookie = new Cookie();
 
 
-  const getStories = async () => {
-
-    try {
-      const response = await axios.get(`${url}/user/stories`, { withCredentials: true });
-      if (response.data.status) {
-        console.log(response.data);
-        setStories(response.data.data);
-        setFilteredStories(response.data.data);
-      }
-    } catch (error) {
-      console.error("Error fetching stories:", error);
-      toast.error("Unable to fetch stories");
+const getStories = async () => {
+  try {
+    const token = cookie.get('user_token'); // Get token from cookies
+    const response = await axios.get(`${url}/user/stories`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Add token to Authorization header
+      },
+      withCredentials: true,
+    });
+    if (response.data.status) {
+      console.log(response.data);
+      setStories(response.data.data);
+      setFilteredStories(response.data.data);
     }
-  };
+  } catch (error) {
+    console.error("Error fetching stories:", error);
+    toast.error("Unable to fetch stories");
+  }
+};
 
-  const onDelete = async (storyId) => {
-    try {
-      const response = await axios.delete(`${url}/stories/delete/${storyId}`, { withCredentials: true });
-      if (response.data.status) {
-        const newStories = stories.filter((s) => s._id !== storyId);
-        setStories(newStories);
-        toast.success(response.data.message);
-      }
-    } catch (error) {
-      toast.error("Unable to delete story");
+
+const onDelete = async (storyId) => {
+  try {
+    const token = cookie.get('user_token'); // Get token from cookies
+    const response = await axios.delete(`${url}/stories/delete/${storyId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Add token to Authorization header
+      },
+      withCredentials: true,
+    });
+    if (response.data.status) {
+      const newStories = stories.filter((s) => s._id !== storyId);
+      setStories(newStories);
+      toast.success(response.data.message);
     }
-  };
+  } catch (error) {
+    toast.error("Unable to delete story");
+  }
+};
+
 
   const handleUpdate = (storyId) => {
     // Find the story to update

@@ -5,10 +5,12 @@ import { useDispatch } from 'react-redux';
 import { FaPencilAlt } from 'react-icons/fa';
 import { addUser } from '../../store/userSlice'; // Assuming this action is for adding user to store
 const url = import.meta.env.VITE_BACKEND_URL;
+import Cookie from "universal-cookie";
 
 function UpdateProfile({ user_data }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const cookie = new Cookie();
 
   useEffect(() => {
     document.title = 'Story Mania | Update Profile';
@@ -58,11 +60,17 @@ function UpdateProfile({ user_data }) {
     if (!validate()) return;
     setIsSubmitting(true);
     try {
-      const response = await axios.put(`${url}/user/update`, user, { withCredentials: true });
+      const token = cookie.get('user_token'); // Get token from cookies
+      const response = await axios.put(`${url}/user/update`, user, {
+        headers: {
+          'Authorization': `Bearer ${token}` // Add token to Authorization header
+        },
+        withCredentials: true
+      });
       if (response.data.status) {
         toast.success('Profile updated successfully!');
         if (response.data.user) {
-          dispatch(addUser(user)); // Dispatch updated user data to store
+          dispatch(addUser(response.data.user)); // Dispatch updated user data to store
         }
       }
     } catch (error) {
@@ -70,6 +78,7 @@ function UpdateProfile({ user_data }) {
     }
     setIsSubmitting(false);
   };
+  
 
   return (
     <div className="w-full p-4 min-h-screen">

@@ -61,30 +61,32 @@ const NewStory = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
-
+  
     if (!title || !plot || !genre || !tags.length) {
       toast.error('All fields are required');
       setIsSubmitting(false);
       return;
     }
-
+  
     if (imageFiles.length < 1) {
       toast.error('You must upload at least one image.');
       setIsSubmitting(false);
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('title', title);
     formData.append('plot', plot);
     formData.append('genre', genre);
     formData.append('tags', JSON.stringify(tags));
     imageFiles.forEach(image => formData.append('images', image));
-
+  
     try {
+      const token = new Cookie().get('user_token'); // Get token from cookies
       await axios.post(`${url}/story/create`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}` // Add token to Authorization header
         },
         withCredentials: true
       });
@@ -103,6 +105,7 @@ const NewStory = () => {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div className="w-full p-2 min-h-screen">
