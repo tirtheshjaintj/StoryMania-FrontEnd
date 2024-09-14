@@ -61,8 +61,7 @@ const AuthorModal = ({ showModal, onClose, storyId }) => {
       {
         headers: {
           Authorization: `Bearer ${token}`,  // Add token to Authorization header
-        },
-        withCredentials: true,
+        }
       })
       .then(response => {
         toast.success('Author added successfully!');

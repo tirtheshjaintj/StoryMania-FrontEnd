@@ -21,7 +21,6 @@ function Stories_Dashboard() {
   const [selectedStory, setSelectedStory] = useState(null);
   const [user, setUser] = useState(null); // Local state for story data
   const dispatch = useDispatch();
-  const user1 = useSelector((state) => state.user);
 
   const getUser = async () => {
     try {
@@ -29,8 +28,7 @@ function Stories_Dashboard() {
       const response = await axios.get(`${url}/user/getUser`, {
         headers: {
           Authorization: `Bearer ${token}`,  // Add token to Authorization header
-        },
-        withCredentials: true,
+        }
       });
       const userData = response.data;
       if (userData.status) {

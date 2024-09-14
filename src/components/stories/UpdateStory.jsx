@@ -76,7 +76,7 @@ function UpdateStory({ storyData,setSelectedStory}) {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}` // Add token to Authorization header
         },
-        withCredentials: true
+       
       });
   
       toast.success('Story updated successfully');

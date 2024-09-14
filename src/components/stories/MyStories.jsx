@@ -23,7 +23,7 @@ const getStories = async () => {
       headers: {
         Authorization: `Bearer ${token}`, // Add token to Authorization header
       },
-      withCredentials: true,
+     
     });
     if (response.data.status) {
       console.log(response.data);
@@ -44,7 +44,7 @@ const onDelete = async (storyId) => {
       headers: {
         Authorization: `Bearer ${token}`, // Add token to Authorization header
       },
-      withCredentials: true,
+     
     });
     if (response.data.status) {
       const newStories = stories.filter((s) => s._id !== storyId);

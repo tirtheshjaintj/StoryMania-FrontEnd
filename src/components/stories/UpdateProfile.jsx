@@ -65,7 +65,7 @@ function UpdateProfile({ user_data }) {
         headers: {
           'Authorization': `Bearer ${token}` // Add token to Authorization header
         },
-        withCredentials: true
+       
       });
       if (response.data.status) {
         toast.success('Profile updated successfully!');
