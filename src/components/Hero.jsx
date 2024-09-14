@@ -9,7 +9,7 @@ export default function Hero() {
       Stories are waiting to be read and created by You 🏰
       </h1>
       <p className="mt-6 text-lg leading-8 ">
-      Welcome to Story Mania, your ultimate solution for maintaining a clean story and organized character development.     
+      Welcome to TJ Story Mania by Tirthesh Jain, your ultimate solution for maintaining a clean story and organized character development.     
       </p>
       <div className="mt-10 flex items-center justify-center gap-x-6">
         <Link
