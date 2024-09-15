@@ -75,7 +75,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div>
+    <div className='text-white'>
       {/* Chatbot Button */}
       <button
         onClick={toggleChatbot}
@@ -115,11 +115,10 @@ const Chatbot = () => {
           className="flex flex-col space-y-4 overflow-y-auto h-[calc(100vh-180px)] sm:h-[474px] pr-4"
         >
           {messages.map((msg, index) => (
-            <div key={index} className={`flex ${msg.sender === 'AI' ? 'justify-start' : 'justify-end'}`}>
+            <div key={index} className={`flex  ${msg.sender === 'AI' ? 'justify-start' : 'justify-end'}`}>
               <div className={`flex items-center space-x-2 p-3 rounded-lg ${msg.sender === 'AI' ? 'backdrop-blur-3xl bg-gray-900/5' : 'backdrop-blur-3xl bg-gray-900/5'}`}>
                 <div className="text-sm">
                   <span className="block font-bold">{msg.sender}</span>
-                  
                   <pre className="w-full text-wrap">{msg.text}</pre>
                 </div>
               </div>
