@@ -119,9 +119,7 @@ return (
              </div>
                 }
               </button>
-              <div className="flex justify-center items-center">
              <GoogleBox setIsLoading={setIsLoading}/>
-            </div>
               <p className="text-sm  text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{' '}
                 <Link to="/user/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">

@@ -4,7 +4,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import Cookie from 'universal-cookie';
 import EyeToggleSVG from '../../components/Eye';
-import { FaCloudversify, FaLock, FaUser } from 'react-icons/fa';
+import {FaLock, FaUser } from 'react-icons/fa';
+import GoogleBox from '../../components/GoogleBox';
 const url = import.meta.env.VITE_BACKEND_URL;
 
 function User_Signup() {
@@ -59,7 +60,7 @@ function User_Signup() {
                 toast.error('Name must contain only letters and spaces.');
             } else if (user.name.length < 3) {
                 toast.error('Name must be at least 3 characters long.');
-            } else if (!user.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+            } else if (!user.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
                 toast.error('Please enter a valid email address.');
             } else if (!user.phone_number.match(/^[0-9]{10}$/)) {
                 toast.error('Phone number must contain exactly 10 digits.');
@@ -386,7 +387,7 @@ function User_Signup() {
                                     )}
                                 </button>
                             )}
-
+                            <GoogleBox setIsLoading={setIsLoading}/>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                                 Already have an account?{' '}
                                 <Link to="/user/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">

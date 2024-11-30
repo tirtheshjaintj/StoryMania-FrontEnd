@@ -2,6 +2,7 @@ import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
+import { addUser } from "../store/userSlice";
 
 export default function Nav({user}) {
   const navigate=useNavigate(); 

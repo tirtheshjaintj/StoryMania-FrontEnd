@@ -52,10 +52,12 @@ function GoogleBox({ setIsLoading }) {
   };
 
   return (
+    <div className="flex justify-center items-center">
     <GoogleLogin
       onSuccess={handleGoogleLogin}
       onError={handleGoogleLoginError}
     />
+    </div>
   );
 }
 
