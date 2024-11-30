@@ -14,10 +14,10 @@ function GoogleBox({ setIsLoading }) {
   const handleGoogleLogin = async (credentialResponse) => {
     try {
       const decodedToken = jwtDecode(credentialResponse.credential);
-      console.log(decodedToken);
+      // console.log(decodedToken);
  
       const { name = "Anonymous", email, sub: google_id } = decodedToken; // Default name
-      console.log(`${url}/user/google_login`);
+      // console.log(`${url}/user/google_login`);
       setIsLoading(true); // Set loading state
       const response = await axios.post(`${url}/user/google_login`, {
         email,
