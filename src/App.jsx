@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import Background from "./components/background";
 import Navbar from "./components/Navbar";
 import toast, { Toaster } from "react-hot-toast";
@@ -41,8 +41,10 @@ const getUser = async () => {
   useEffect(()=>{
     console.log(url);
     document.title="TJ Story Mania By Tirthesh Jain";
+    if( cookie.get('user_token')){
     getUser();
-  },[]);
+    }
+  });
 
   return (
     <>

@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import EyeToggleSVG from '../../components/Eye';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Cookie from "universal-cookie";
-import { GoogleLogin } from '@react-oauth/google';
+import GoogleBox from '../../components/GoogleBox';
 const url=import.meta.env.VITE_BACKEND_URL;
 
 function User_Login(){
-
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const [showPassword, setShowPassword] = useState(false);
@@ -121,7 +120,7 @@ return (
                 }
               </button>
               <div className="flex justify-center items-center">
-            <GoogleLogin/>
+             <GoogleBox setIsLoading={setIsLoading}/>
             </div>
               <p className="text-sm  text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{' '}
