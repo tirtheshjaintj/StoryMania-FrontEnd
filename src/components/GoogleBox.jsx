@@ -9,7 +9,7 @@ const url = import.meta.env.VITE_BACKEND_URL;
 
 function GoogleBox({ setIsLoading }) {
   const cookie = new Cookie();
-  const navigate = useNavigate();``
+  const navigate = useNavigate();
 
   const handleGoogleLogin = async (credentialResponse) => {
     try {
@@ -17,11 +17,13 @@ function GoogleBox({ setIsLoading }) {
       // console.log(decodedToken);
  
       const { name = "Anonymous", email, sub: google_id } = decodedToken; // Default name
-      // console.log(`${url}/user/google_login`);
+
+      const sanitized_name = name.replace(/[^a-zA-Z\s]/g, "").trim();
+
       setIsLoading(true); // Set loading state
       const response = await axios.post(`${url}/user/google_login`, {
         email,
-        name,
+        name:sanitized_name,
         google_id,
       });
 
